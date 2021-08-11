@@ -1,0 +1,45 @@
+name: Create Release
+
+on:
+  push:
+    branches: ['main']
+
+jobs:
+  release:
+    timeout-minutes: 5
+    name: Tagging & Release
+    runs-on: ubuntu-latest
+    if: "!startsWith(github.event.head_commit.message, 'chore(release): ')"
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.H5_GITHUB_TOKEN }}
+          fetch-depth: 0
+      - name: Configuring Git and NPM
+        run: |
+          git config --global user.name "high5-bot"
+          git config --global user.email "me+high5@dunklestoast.de"
+          npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          registry-url: 'https://registry.npmjs.org'
+      - name: node_modules cache
+        uses: actions/cache@v2.1.5
+        id: module-cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-paperless-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-paperless-
+      - name: Prepare dependencies
+        run: yarn install
+      - name: Build
+        run: yarn build
+      - name: Set Registry Token
+        run: npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
+      - name: Create Release
+        run: ./node_modules/.bin/release-it
+        env:
+            GITHUB_TOKEN: ${{ secrets.H5_GITHUB_TOKEN }}
+            NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

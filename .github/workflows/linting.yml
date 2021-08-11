@@ -1,0 +1,36 @@
+name: Lint & Validate
+
+on:
+  pull_request:
+    branches: ['main']
+    types: [ready_for_review, synchronize, opened]
+
+jobs:
+  linting:
+    if: ${{ github.event.pull_request.draft == false }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: sudo timedatectl set-timezone Europe/Berlin
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: node_modules cache
+        uses: actions/cache@v2.1.5
+        id: module-cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-paperless-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-paperless-
+      - name: Prepare dependencies
+        run: yarn install
+      - name: ESLint
+        uses: reviewdog/action-eslint@9f8cc79323a94a738b73165227dd9d2fa1b6a387
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
+          level: 'warning'
+          fail_on_error: true
+      - name: Build via tsc
+        run: yarn tsc --noEmi

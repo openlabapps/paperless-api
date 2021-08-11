@@ -1,0 +1,19 @@
+name: Conventional Commit Linter
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: amannn/action-semantic-pull-request@c2fc95bdb955dd8bde609dddb4f725a1fa9c35fb
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          validateSingleCommit: true
+          subjectPattern: ^(?![A-Z]).+$
