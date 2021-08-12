@@ -33,4 +33,4 @@ jobs:
           level: 'warning'
           fail_on_error: true
       - name: Build via tsc
-        run: yarn tsc --noEmi
+        run: yarn tsc --noEmit
