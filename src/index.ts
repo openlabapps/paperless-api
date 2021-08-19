@@ -12,7 +12,7 @@ export class Paperless {
 
   constructor(config: Config) {
     const baseURL = config.port ? `${config.host}:${config.port}` : config.host;
-    const options: Record<string, any> = {
+    const options: Record<string, unknown> = {
       baseURL: `${baseURL}/api`,
       headers: {
         Accept: 'application/json; version=2',
@@ -92,7 +92,7 @@ export class Paperless {
    */
   public async search(query: string): Promise<Metadata>;
 
-  public async search(query: string | DocumentId): Promise<any> {
+  public async search(query: string | DocumentId): Promise<Metadata> {
     let searchParams: Record<string, string | DocumentId> = {};
 
     if (typeof query === 'number') {
