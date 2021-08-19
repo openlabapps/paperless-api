@@ -1,25 +1,23 @@
-import type { AxiosInstance } from 'axios';
+import type { AxiosInstance, AxiosRequestConfig } from 'axios';
 import axios from 'axios';
 import type { Config } from './types/Config';
 import type { CorrespondentResponse } from './types/Correspondents';
 import type { DocumentTypeResponse } from './types/DocumentTypes';
-import type { DocumentId } from './types/Generic';
+import type { DocumentId, Token } from './types/Generic';
 import type { Metadata } from './types/Metadata';
 import type { TagResponse } from './types/Tags';
 
 export class Paperless {
   private instance: AxiosInstance;
 
+  private isUserAuth = false;
+
   constructor(config: Config) {
     const baseURL = config.port ? `${config.host}:${config.port}` : config.host;
-    const options: Record<string, unknown> = {
+    const options: AxiosRequestConfig = {
       baseURL: `${baseURL}/api`,
       headers: {
         Accept: 'application/json; version=2',
-      },
-      auth: {
-        username: config.username,
-        password: config.password,
       },
     };
 
@@ -29,6 +27,19 @@ export class Paperless {
       options.httpsAgent = new https.Agent({
         rejectUnauthorized: !config.ignoreSSL,
       });
+    }
+
+    if (config.username) {
+      this.isUserAuth = true;
+      options.auth = {
+        username: config.username,
+        password: config.password,
+      };
+    }
+
+    if (config.token) {
+      this.isUserAuth = false;
+      options.headers.Authorization = `Token ${config.token}`;
     }
 
     this.instance = axios.create(options);
@@ -152,6 +163,21 @@ export class Paperless {
    */
   public async getLog(id: string): Promise<string[]> {
     const response = await this.instance.get(`/logs/${id}/`);
+
+    return response.data;
+  }
+
+  /**
+   * Returns a Token for authentication. Can only be used with username & password
+   */
+  public async getToken(): Promise<{ token: Token }> {
+    if (!this.isUserAuth) {
+      throw new Error('getToken is only usable if you are logged in via username / password');
+    }
+    const response = await this.instance.post('/token/', {
+      username: this.instance.defaults.auth.username,
+      password: this.instance.defaults.auth.password,
+    });
 
     return response.data;
   }
