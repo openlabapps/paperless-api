@@ -34,3 +34,7 @@ fs.writeFileSync(`${document.title}.pdf`, file);
 // Get a documents thumbnail
 await paperless.getThumbnail(2);
 ```
+
+## React Native
+
+This package is compatible with React Native. However, the `ignoreSSL` feature is not supported and will throw errors, if you set this to true. 

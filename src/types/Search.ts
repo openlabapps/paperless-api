@@ -31,7 +31,7 @@ export type SearchResult = {
   /** ISO-8601 formatted added date */
   added: string;
   /** UNKNOWN */
-  archive_serial_number: any;
+  archive_serial_number: unknown;
   /** Filename before Import */
   original_file_name: string;
   /** Filename after archiving */

@@ -1,7 +1,5 @@
 import type { AxiosInstance } from 'axios';
 import axios from 'axios';
-import * as fs from 'fs';
-import * as https from 'https';
 import type { Config } from './types/Config';
 import type { CorrespondentResponse } from './types/Correspondents';
 import type { DocumentTypeResponse } from './types/DocumentTypes';
@@ -14,10 +12,7 @@ export class Paperless {
 
   constructor(config: Config) {
     const baseURL = config.port ? `${config.host}:${config.port}` : config.host;
-    this.instance = axios.create({
-      httpsAgent: new https.Agent({
-        rejectUnauthorized: !config.ignoreSSL,
-      }),
+    const options: Record<string, unknown> = {
       baseURL: `${baseURL}/api`,
       headers: {
         Accept: 'application/json; version=2',
@@ -26,7 +21,17 @@ export class Paperless {
         username: config.username,
         password: config.password,
       },
-    });
+    };
+
+    if (config.ignoreSSL) {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires,global-require
+      const https = require('https');
+      options.httpsAgent = new https.Agent({
+        rejectUnauthorized: !config.ignoreSSL,
+      });
+    }
+
+    this.instance = axios.create(options);
   }
 
   /**
@@ -87,7 +92,7 @@ export class Paperless {
    */
   public async search(query: string): Promise<Metadata>;
 
-  public async search(query: string | DocumentId): Promise<any> {
+  public async search(query: string | DocumentId): Promise<Metadata> {
     let searchParams: Record<string, string | DocumentId> = {};
 
     if (typeof query === 'number') {
