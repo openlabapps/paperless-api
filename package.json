@@ -35,5 +35,8 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
+  },
+  "react-native": {
+    "https": false
   }
 }
