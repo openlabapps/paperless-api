@@ -1,3 +1,10 @@
+## [0.0.6](https://github.com/openlabapps/paperless-api/compare/0.0.5...0.0.6) (2021-08-19)
+
+
+### Bug Fixes
+
+* exclude https package from react-native bundle ([#3](https://github.com/openlabapps/paperless-api/issues/3)) ([a959071](https://github.com/openlabapps/paperless-api/commit/a95907176279cf695eea360e611bd87667f9fcbd))
+
 ## [0.0.5](https://github.com/openlabapps/paperless-api/compare/0.0.4...0.0.5) (2021-08-19)
 
 
