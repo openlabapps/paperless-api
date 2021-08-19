@@ -1,3 +1,10 @@
+# [0.1.0](https://github.com/openlabapps/paperless-api/compare/0.0.6...0.1.0) (2021-08-19)
+
+
+### Features
+
+* add token login ([#4](https://github.com/openlabapps/paperless-api/issues/4)) ([bf9449e](https://github.com/openlabapps/paperless-api/commit/bf9449edd8d4ea31c81a6c7ae1eb4038985d3db9))
+
 ## [0.0.6](https://github.com/openlabapps/paperless-api/compare/0.0.5...0.0.6) (2021-08-19)
 
 
