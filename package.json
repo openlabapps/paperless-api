@@ -4,6 +4,7 @@
   "description": "A paperless-ng api client",
   "main": "dist/index.js",
   "author": "Tom <me@dunklesToast.de>",
+  "repository": "https://github.com/openlabapps/paperless-api",
   "license": "MIT",
   "private": false,
   "devDependencies": {
