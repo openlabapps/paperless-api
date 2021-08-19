@@ -1,6 +1,6 @@
 {
   "name": "paperless",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A paperless-ng api client",
   "main": "dist/index.js",
   "author": "Tom <me@dunklesToast.de>",
