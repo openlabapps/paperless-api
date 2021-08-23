@@ -2,6 +2,7 @@ import type { AxiosInstance, AxiosRequestConfig } from 'axios';
 import axios from 'axios';
 import type { Config } from './types/Config';
 import type { CorrespondentResponse } from './types/Correspondents';
+import type { DocumentListParsed, DocumentListResult } from './types/Document';
 import type { DocumentTypeResponse } from './types/DocumentTypes';
 import type { DocumentId, Token } from './types/Generic';
 import type { Metadata } from './types/Metadata';
@@ -53,6 +54,30 @@ export class Paperless {
     const response = await this.instance.get(`/documents/${id}/`);
 
     return response.data;
+  }
+
+  /**
+   * List documents. This function replaces the returned next and previous links with simple page numbers which you can feed back into the fn.
+   * @param page: Page to be queried
+   */
+  public async getDocuments(page = 1): Promise<DocumentListParsed> {
+    const response = await this.instance.get<DocumentListResult>(`/documents/?page=${page}`);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result: any = response.data;
+
+    const { next, previous } = response.data;
+
+    if (next && result.next) {
+      const splitted = next.split('page=');
+      result.next = parseInt(splitted[1], 10);
+    }
+
+    if (previous) {
+      const splitted = previous.split('page=');
+      result.previous = parseInt(splitted[1], 10);
+    }
+
+    return result as DocumentListParsed;
   }
 
   /**
