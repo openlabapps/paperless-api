@@ -1,12 +1,13 @@
 import type { AxiosInstance, AxiosRequestConfig } from 'axios';
 import axios from 'axios';
+import { parseLinks } from './helpers/ParseLinks';
 import type { Config } from './types/Config';
 import type { CorrespondentResponse } from './types/Correspondents';
 import type { DocumentListParsed, DocumentListResult } from './types/Document';
 import type { DocumentTypeResponse } from './types/DocumentTypes';
 import type { DocumentId, Token } from './types/Generic';
 import type { Metadata } from './types/Metadata';
-import type { TagResponse } from './types/Tags';
+import type { TagParsed, TagResult } from './types/Tags';
 
 export class Paperless {
   private instance: AxiosInstance;
@@ -62,22 +63,8 @@ export class Paperless {
    */
   public async getDocuments(page = 1): Promise<DocumentListParsed> {
     const response = await this.instance.get<DocumentListResult>(`/documents/?page=${page}`);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result: any = response.data;
 
-    const { next, previous } = response.data;
-
-    if (next && result.next) {
-      const splitted = next.split('page=');
-      result.next = parseInt(splitted[1], 10);
-    }
-
-    if (previous) {
-      const splitted = previous.split('page=');
-      result.previous = parseInt(splitted[1], 10);
-    }
-
-    return result as DocumentListParsed;
+    return parseLinks<DocumentListParsed>(response.data);
   }
 
   /**
@@ -168,10 +155,10 @@ export class Paperless {
   /**
    * Lists all tags
    */
-  public async getTags(): Promise<TagResponse> {
-    const response = await this.instance.get(`/tags/`);
+  public async getTags(): Promise<TagParsed> {
+    const response = await this.instance.get<TagResult>(`/tags/`);
 
-    return response.data;
+    return parseLinks<TagParsed>(response.data);
   }
 
   /**
