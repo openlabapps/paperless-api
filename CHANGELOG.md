@@ -1,3 +1,10 @@
+## [0.2.2](https://github.com/openlabapps/paperless-api/compare/0.2.1...0.2.2) (2021-08-23)
+
+
+### Bug Fixes
+
+* tag types again ([#7](https://github.com/openlabapps/paperless-api/issues/7)) ([55edb96](https://github.com/openlabapps/paperless-api/commit/55edb960ad7996919f44db2273b96c5ffb661fd3))
+
 ## [0.2.1](https://github.com/openlabapps/paperless-api/compare/0.2.0...0.2.1) (2021-08-23)
 
 
