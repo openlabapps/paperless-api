@@ -26,3 +26,16 @@ export type Document = {
   /** Filename after archiving */
   archived_file_name: string | null;
 };
+
+export type DocumentListResult = {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Document[];
+};
+
+export type DocumentListParsed = DocumentListResult & {
+  /** The api wrapper does parse the returned link so we can easily feed it into the function */
+  next: number | null;
+  previous: number | null;
+};
