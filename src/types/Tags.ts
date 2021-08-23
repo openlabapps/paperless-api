@@ -15,4 +15,15 @@ export type Tag = {
   document_count: number | null;
 };
 
-export type TagResponse = Tag[];
+export type TagResult = {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Tag[];
+};
+
+export type TagParsed = TagResult & {
+  /** The api wrapper does parse the returned link so we can easily feed it into the function */
+  next: number | null;
+  previous: number | null;
+};
