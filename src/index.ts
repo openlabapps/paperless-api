@@ -62,11 +62,12 @@ export class Paperless {
    */
   public async getDocuments(page = 1): Promise<DocumentListParsed> {
     const response = await this.instance.get<DocumentListResult>(`/documents/?page=${page}`);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result: any = response.data;
 
     const { next, previous } = response.data;
 
-    if (next) {
+    if (next && result.next) {
       const splitted = next.split('page=');
       result.next = parseInt(splitted[1], 10);
     }
