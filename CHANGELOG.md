@@ -1,3 +1,10 @@
+# [0.2.0](https://github.com/openlabapps/paperless-api/compare/0.1.0...0.2.0) (2021-08-23)
+
+
+### Features
+
+* add document listing ([#5](https://github.com/openlabapps/paperless-api/issues/5)) ([81ac3dd](https://github.com/openlabapps/paperless-api/commit/81ac3ddac03c8908e23627fa8f5b52dfab11c061))
+
 # [0.1.0](https://github.com/openlabapps/paperless-api/compare/0.0.6...0.1.0) (2021-08-19)
 
 
