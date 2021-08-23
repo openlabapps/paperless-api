@@ -13,6 +13,7 @@ export type Tag = {
   is_insensitive: boolean;
   is_inbox_tag: boolean;
   document_count: number | null;
+  name: string;
 };
 
 export type TagResult = {
