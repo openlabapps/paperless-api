@@ -1,3 +1,5 @@
+## [0.2.3](https://github.com/openlabapps/paperless-api/compare/0.2.2...0.2.3) (2021-12-10)
+
 ## [0.2.2](https://github.com/openlabapps/paperless-api/compare/0.2.1...0.2.2) (2021-08-23)
 
 
