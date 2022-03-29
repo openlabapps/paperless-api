@@ -7,7 +7,7 @@ import type { DocumentFilter, DocumentListParsed, DocumentListResult, DocumentOr
 import type { DocumentTypeResponse } from './types/DocumentTypes';
 import type { DocumentId, Token } from './types/Generic';
 import type { Metadata } from './types/Metadata';
-import type { TagParsed, TagResult } from './types/Tags';
+import type { TagFilter, TagParsed, TagResult } from './types/Tags';
 
 export class Paperless {
   private instance: AxiosInstance;
@@ -157,10 +157,13 @@ export class Paperless {
   }
 
   /**
-   * Lists all tags
+   * Lists all or filtered tags
+   * @param filter - Filter for the result
    */
-  public async getTags(): Promise<TagParsed> {
-    const response = await this.instance.get<TagResult>(`/tags/`);
+   public async getTags(filter: TagFilter): Promise<TagParsed> {
+    const response = await this.instance.get<TagResult>(`/tags/`, {
+      params: filter,
+    });
 
     return parseLinks<TagParsed>(response.data);
   }
