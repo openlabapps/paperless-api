@@ -63,7 +63,7 @@ export class Paperless {
    * @param ordering - Ordering of the result list
    * @param page - Page to be queried
    */
-   public async getDocuments(filter: DocumentFilter, ordering: DocumentOrdering, page = 1): Promise<DocumentListParsed> {
+public async getDocuments(page = 1, filter?: DocumentFilter, ordering?: DocumentOrdering): Promise<DocumentListParsed> {
     const response = await this.instance.get<DocumentListResult>(`/documents/?page=${page}`, {
       params: { ...filter, ...ordering },
     });
