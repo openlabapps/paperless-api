@@ -160,7 +160,7 @@ public async getDocuments(page = 1, filter?: DocumentFilter, ordering?: Document
    * Lists all or filtered tags
    * @param filter - Filter for the result
    */
-   public async getTags(filter: TagFilter): Promise<TagParsed> {
+   public async getTags(filter?: TagFilter): Promise<TagParsed> {
     const response = await this.instance.get<TagResult>(`/tags/`, {
       params: filter,
     });
