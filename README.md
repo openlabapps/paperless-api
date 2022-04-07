@@ -27,6 +27,18 @@ const paperless = new Paperless({
 // Get a document by Id
 const document = await paperless.getDocument(2);
 
+// Get a filtered list of documents where title or content contains the word Rechnung
+const result = await paperless.getDocuments({title_content: "Rechnung"})
+console.log(result);
+
+// with Ordering
+const document = await paperless.getDocuments({title_content: "Rechnung24165"},{ordering: TITLE_ASCENDING})
+console.log(document);
+
+// Get a filtered list of tags with name starts with to
+const result = await paperless.getTags({name__istartswith: "in"})
+console.log(result);
+
 // Download a document
 const file = await paperless.downloadDocument(2);
 fs.writeFileSync(`${document.title}.pdf`, file);

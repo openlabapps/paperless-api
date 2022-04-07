@@ -16,6 +16,17 @@ export type Tag = {
   name: string;
 };
 
+export type TagFilter = {
+  /** Name of tag starts with */
+  name__istartswith: string;
+  /** Name of tag ends with */
+  name__iendswith: string;
+  /** Name of tag contains */
+  name__icontains: string;
+  /** Name of tag is exatcly */
+  name__iexact: string;
+};
+
 export type TagResult = {
   count: number;
   next: string | null;
@@ -28,3 +39,14 @@ export type TagParsed = TagResult & {
   next: number | null;
   previous: number | null;
 };
+
+// TODO:
+// ordering=
+// name - Aufsteigend
+// -name - Absteigend
+// matching_algorithm - Aufsteigend
+// -matching_algorithm - Absteigend
+// match - Aufsteigend
+// -match - Absteigend
+// document_count - Aufsteigend
+// -document_count - Absteigend

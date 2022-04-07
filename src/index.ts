@@ -3,11 +3,11 @@ import axios from 'axios';
 import { parseLinks } from './helpers/ParseLinks';
 import type { Config } from './types/Config';
 import type { CorrespondentResponse } from './types/Correspondents';
-import type { DocumentListParsed, DocumentListResult } from './types/Document';
+import type { DocumentFilter, DocumentListParsed, DocumentListResult, DocumentOrdering } from './types/Document';
 import type { DocumentTypeResponse } from './types/DocumentTypes';
 import type { DocumentId, Token } from './types/Generic';
 import type { Metadata } from './types/Metadata';
-import type { TagParsed, TagResult } from './types/Tags';
+import type { TagFilter, TagParsed, TagResult } from './types/Tags';
 
 export class Paperless {
   private instance: AxiosInstance;
@@ -59,10 +59,14 @@ export class Paperless {
 
   /**
    * List documents. This function replaces the returned next and previous links with simple page numbers which you can feed back into the fn.
-   * @param page: Page to be queried
+   * @param filter - Filter for the result
+   * @param ordering - Ordering of the result list
+   * @param page - Page to be queried
    */
-  public async getDocuments(page = 1): Promise<DocumentListParsed> {
-    const response = await this.instance.get<DocumentListResult>(`/documents/?page=${page}`);
+public async getDocuments(page = 1, filter?: DocumentFilter, ordering?: DocumentOrdering): Promise<DocumentListParsed> {
+    const response = await this.instance.get<DocumentListResult>(`/documents/?page=${page}`, {
+      params: { ...filter, ...ordering },
+    });
 
     return parseLinks<DocumentListParsed>(response.data);
   }
@@ -153,10 +157,13 @@ export class Paperless {
   }
 
   /**
-   * Lists all tags
+   * Lists all or filtered tags
+   * @param filter - Filter for the result
    */
-  public async getTags(): Promise<TagParsed> {
-    const response = await this.instance.get<TagResult>(`/tags/`);
+   public async getTags(filter?: TagFilter): Promise<TagParsed> {
+    const response = await this.instance.get<TagResult>(`/tags/`, {
+      params: filter,
+    });
 
     return parseLinks<TagParsed>(response.data);
   }
