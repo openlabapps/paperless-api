@@ -104,8 +104,7 @@ export type DocumentFilter = {
   correspondent__isnull: boolean;
   /** Correspondent id is */
   correspondent__id: CorrespondentId;
-  /** TODO: comma sperated list? arry or string?  Correspondent id is in */
-  correspondent__id__in: number[];
+  correspondent__id__in: unknown;
   /** Correspondent name starts with */
   correspondent__name__istartswith: string;
   /** Correspondent name ends with */
